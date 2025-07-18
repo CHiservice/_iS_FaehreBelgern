@@ -31,6 +31,15 @@ msgstr "Status"
 msgid "Comment"
 msgstr "Kommentar"
 
+msgid "Date"
+msgstr "Datum"
+
+msgid "Immediately"
+msgstr "Sofort"
+
+msgid "Select date"
+msgstr "Datum wählen"
+
 msgid ""
 msgstr ""
 

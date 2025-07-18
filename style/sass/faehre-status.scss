@@ -1,24 +1,21 @@
-$in-service: #28a745;
-$limited-service: #ffc107;
-$out-of-service: #dc3545;
-$white: #ffffff;
+@use 'base/variables' as *;
 
 .faehrebelgern-status-wrapper {
 	&.in-service button {
-		background-color: $in-service;
+		background-color: $faehre-in-service;
 	}
 
 	&.limited-service button {
-		background-color: $limited-service;
+		background-color: $faehre-limited-service;
 	}
 
 	&.out-of-service button {
-		background-color: $out-of-service;
+		background-color: $faehre-out-of-service;
 	}
 
 	button {
 		border: 0;
-		color: $white;
+		color: $faehre-white;
 		cursor: default;
 		font-family: 'Raleway', 'Helvetica', 'Arial', 'Lucida', 'sans-serif';
 		font-size: 1.2rem;
