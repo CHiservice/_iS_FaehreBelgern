@@ -8,6 +8,7 @@ class iS_FaehreBelgern_Shortcode {
 		add_action('wp_enqueue_scripts', array($this, 'fe_enqueue_scripts'));
 		add_shortcode('faehrebelgern_status', array($this, 'render_status'));
 		add_shortcode('faehrebelgern_status_button', array($this, 'render_status_button'));
+		add_shortcode('faehrebelgern_chart', array($this, 'render_chart'));
 	}
 
 	public function render_status() {
@@ -84,6 +85,10 @@ class iS_FaehreBelgern_Shortcode {
 		}
 	}
 
+	public function render_chart() {
+		return '<div id="faehre-chart" style="width: 100%; height: 400px;"></div>';
+	}
+
 	function fe_enqueue_scripts() {
 		wp_enqueue_style('faehre_status_css', STYLESHEETURL.'/'.$this->config->get('modulName').'/css/faehre-status.min.css', array(), $this->config->get('version'));
 		wp_enqueue_script('faehre_status_js', STYLESHEETURL.'/'.$this->config->get('modulName').'/js/faehre-status.min.js', array('jquery'), $this->config->get('version'), true);
@@ -92,6 +97,16 @@ class iS_FaehreBelgern_Shortcode {
 			'isFahreStatusVars',
 			array(
 				'button_url' => esc_url(get_option('home')).'/wp-json/is_fb/button',
+			),
+		);
+
+		wp_enqueue_style('faehre_chart_css', STYLESHEETURL.'/'.$this->config->get('modulName').'/css/faehre-chart.min.css', array(), $this->config->get('version'));
+		wp_enqueue_script('faehre_chart_js', STYLESHEETURL.'/'.$this->config->get('modulName').'/js/faehre-chart.min.js', array('jquery'), $this->config->get('version'), true);
+		wp_localize_script(
+			'faehre_chart_js',
+			'isFahreChartVars',
+			array(
+				'chart_url' => esc_url(get_option('home')).'/wp-json/is_fb/chart',
 			),
 		);
 	}

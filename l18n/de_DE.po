@@ -189,3 +189,24 @@ msgstr "Status von gestern, %s"
 
 msgid "Status from %s"
 msgstr "Status vom %s"
+
+msgid "Current Water Level"
+msgstr "Aktueller Wasserstand"
+
+msgid "Forecast Water Level"
+msgstr "Wasserstand Vorhersage"
+
+msgid "Min Level (45cm)"
+msgstr "Min. Pegel (45cm)"
+
+msgid "Max Level (230cm)"
+msgstr "Max. Pegel (230cm)"
+
+msgid "Time"
+msgstr "Zeit"
+
+msgid "Water Level (cm)"
+msgstr "Wasserstand (cm)"
+
+msgid "Water Level"
+msgstr "Wasserstand"

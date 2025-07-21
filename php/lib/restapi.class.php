@@ -25,6 +25,10 @@ class iS_FaehreBelgern_RestApi {
 				"methods"             => "GET",
 				"callback"            => array($this, "status_button"),
 			));
+			register_rest_route("is_fb", "chart", array(
+				"methods"             => "GET",
+				"callback"            => array($this, "chart"),
+			));
 		});
 	}
 
@@ -88,6 +92,14 @@ class iS_FaehreBelgern_RestApi {
 
 		return rest_ensure_response(array(
 			'button' => $button,
+		));
+	}
+
+	public function chart($request) {
+		$button = iS_FaehreBelgern_Chart::chart_data();
+
+		return rest_ensure_response(array(
+			'data' => $button,
 		));
 	}
 }
