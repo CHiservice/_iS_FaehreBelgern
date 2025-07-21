@@ -17,6 +17,10 @@ class iS_FaehreBelgern_RestApi {
 				"methods"             => "GET",
 				"callback"            => array(iS_FaehreBelgern_Cron::class, "check_planned_changes")
 			));
+			register_rest_route("is_fb_cron", "chart", array(
+				"methods"             => "GET",
+				"callback"            => array(iS_FaehreBelgern_Cron::class, "chart")
+			));
 			register_rest_route("is_fb", "button", array(
 				"methods"             => "GET",
 				"callback"            => array($this, "status_button"),
@@ -80,7 +84,7 @@ class iS_FaehreBelgern_RestApi {
 	}
 
 	public function status_button($request) {
-		$button = iS_FaehreBelgern_Shortcode::render_status_button_static();
+		$button = iS_FaehreBelgern_Shortcode::render_header_status_button();
 
 		return rest_ensure_response(array(
 			'button' => $button,

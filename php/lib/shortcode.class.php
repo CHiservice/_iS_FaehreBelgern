@@ -48,9 +48,13 @@ class iS_FaehreBelgern_Shortcode {
 		return '<button class="faehre-status-button status-'.esc_attr($status).'">'.esc_html($status_data[$status]['label']).'</button>';
 	}
 
-	public static function render_status_button_static() {
+	public static function render_header_status_button() {
 		$instance = new self();
-		return $instance->render_status_button();
+		return '<div class="faehre-status-button-wrapper">
+			<a href="'.get_option('home').'/#is_fb_status">'.
+				$instance->render_status_button().
+			'</a>'.
+		'</div>';
 	}
 
 	private function format_status_date($date_string) {
@@ -58,7 +62,7 @@ class iS_FaehreBelgern_Shortcode {
 		if (!$date) {
 			return '';
 		}
-		
+
 		$now = new DateTime();
 		$diff = $now->diff($date);
 		

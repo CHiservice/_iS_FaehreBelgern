@@ -9,5 +9,6 @@ class iS_FaehreBelgern extends iS_Module {
 		new iS_FaehreBelgern_Shortcode();
 		new iS_FaehreBelgern_RestApi();
 		new iS_FaehreBelgern_Cron();
+		new iS_FaehreBelgern_Chart();
 	}
 }
