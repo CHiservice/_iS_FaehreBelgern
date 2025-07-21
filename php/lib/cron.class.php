@@ -4,26 +4,11 @@ class iS_FaehreBelgern_Cron {
 	
 	public function __construct() {
 		$this->config = iS_FaehreBelgern_Config::get_instance();
-		
-		add_action('init', array($this, 'schedule_cron'));
-		add_action('faehrebelgern_check_planned_changes', array($this, 'check_planned_changes'));
-		
-		register_deactivation_hook(__FILE__, array($this, 'clear_cron'));
-	}
-
-	public function schedule_cron() {
-		if (!wp_next_scheduled('faehrebelgern_check_planned_changes')) {
-			wp_schedule_event(time(), 'every_5_minutes', 'faehrebelgern_check_planned_changes');
-		}
-	}
-
-	public function clear_cron() {
-		wp_clear_scheduled_hook('faehrebelgern_check_planned_changes');
 	}
 
 	public function check_planned_changes() {
 		$settings = new iS_FaehreBelgern_Settings();
-		$planned_changes = $settings->get_planned_changes();
+		$planned_changes = $settings::get_planned_status();
 
 		if (is_null($planned_changes)) {
 			return;
@@ -52,11 +37,3 @@ class iS_FaehreBelgern_Cron {
 		return false;
 	}
 }
-
-add_filter('cron_schedules', function($schedules) {
-	$schedules['every_5_minutes'] = array(
-		'interval' => 5 * 60,
-		'display' => __('Every 5 Minutes')
-	);
-	return $schedules;
-});

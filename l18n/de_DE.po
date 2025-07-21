@@ -16,14 +16,74 @@ msgstr ""
 "X-Generator: Poedit 2.0.7\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid "In Service"
-msgstr "In Betrieb"
+msgid "Ferry Belgern Settings"
+msgstr "Fähre Belgern Settings"
 
-msgid "Limited Service"
-msgstr "Eingeschränkter Betrieb"
+msgid "Ferry Belgern"
+msgstr "Fähre Belgern"
 
-msgid "Out of Service"
-msgstr "Außer Betrieb"
+msgid "Current Status"
+msgstr "Aktueller Status"
+
+msgid "Planned Change"
+msgstr "Geplante Änderung"
+
+msgid "Ferry operates according to schedule"
+msgstr "Fähre verkehrt nach Fahrplan"
+
+msgid "Ferry operates with limited service according to schedule"
+msgstr "Fähre verkehrt eingeschränkt nach Fahrplan"
+
+msgid "Ferry is out of service"
+msgstr "Fähre ist außer Betrieb"
+
+msgid "Status:"
+msgstr "Status:"
+
+msgid "Comment:"
+msgstr "Kommentar:"
+
+msgid "Date:"
+msgstr "Datum:"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Apply"
+msgstr "Übernehmen"
+
+msgid "No planned changes available."
+msgstr "Keine geplanten Änderungen vorhanden."
+
+msgid "Create New Planning"
+msgstr "Neue Planung erstellen"
+
+msgid "Good news! The ferry will be back in service from [date]."
+msgstr "Gute Nachrichten! Die Fähre ist ab dem [date] wieder in Betrieb."
+
+msgid "Due to low water levels, only vehicles up to 3.5t will be transported from [date]."
+msgstr "Aufgrund des niedrigen Wasserstandes werden ab dem [date] leider nur Fahrzeuge bis 3.5t befördert."
+
+msgid "Due to low water levels, the ferry is unfortunately out of service from [date]!"
+msgstr "Aufgrund des niedrigen Wasserstandes ist die Fähre ab dem [date] leider außer Betrieb!"
+
+msgid "Do you really want to delete the planned change?"
+msgstr "Möchten Sie die geplante Änderung wirklich löschen?"
+
+msgid "Error while deleting:"
+msgstr "Fehler beim Löschen:"
+
+msgid "Deleting..."
+msgstr "Löschen..."
 
 msgid "Status"
 msgstr "Status"
@@ -40,8 +100,92 @@ msgstr "Sofort"
 msgid "Select date"
 msgstr "Datum wählen"
 
-msgid ""
-msgstr ""
+msgid "From"
+msgstr "Von"
 
-msgid ""
-msgstr ""
+msgid "To"
+msgstr "Bis"
+
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+msgid "W"
+msgstr "W"
+
+msgid "Su"
+msgstr "So"
+
+msgid "Mo"
+msgstr "Mo"
+
+msgid "Tu"
+msgstr "Di"
+
+msgid "We"
+msgstr "Mi"
+
+msgid "Th"
+msgstr "Do"
+
+msgid "Fr"
+msgstr "Fr"
+
+msgid "Sa"
+msgstr "Sa"
+
+msgid "January"
+msgstr "Januar"
+
+msgid "February"
+msgstr "Februar"
+
+msgid "March"
+msgstr "März"
+
+msgid "April"
+msgstr "April"
+
+msgid "May"
+msgstr "Mai"
+
+msgid "June"
+msgstr "Juni"
+
+msgid "July"
+msgstr "Juli"
+
+msgid "August"
+msgstr "August"
+
+msgid "September"
+msgstr "September"
+
+msgid "October"
+msgstr "Oktober"
+
+msgid "November"
+msgstr "November"
+
+msgid "December"
+msgstr "Dezember"
+
+msgid "Announce planned status change"
+msgstr "Geplante Statusänderung ankündigen"
+
+msgid "Announce:"
+msgstr "Ankündigen:"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "No"
+msgstr "Nein"
+
+msgid "Status from today, %s"
+msgstr "Status von heute, %s"
+
+msgid "Status from yesterday, %s"
+msgstr "Status von gestern, %s"
+
+msgid "Status from %s"
+msgstr "Status vom %s"

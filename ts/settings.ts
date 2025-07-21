@@ -1,239 +1,192 @@
 (function ($){
-
-	interface FaehreBelgernSettingsConfig {
-		select?: string;
-		textarea?: string;
-		defaultTextTr?: string;
-		defaultText?: string;
-		button?: string;
-		typeSelect?: string;
-		dateField?: string;
-		selectPlanned?: string;
-		textareaPlanned?: string;
-		defaultTextTrPlanned?: string;
-		defaultTextPlanned?: string;
-		buttonPlanned?: string;
-		dateFieldPlanned?: string;
-	}
-
 	class FaehreBelgernSettings {
-		private $select!: JQuery<HTMLSelectElement>;
-		private $textarea!: JQuery<HTMLTextAreaElement>;
-		private $defaultTextTr!: JQuery<HTMLElement>;
-		private $defaultText!: JQuery<HTMLElement>;
-		private $button!: JQuery<HTMLButtonElement>;
-		private $typeSelect!: JQuery<HTMLSelectElement>;
-		private $dateField!: JQuery<HTMLInputElement>;
-		private $selectPlanned!: JQuery<HTMLSelectElement>;
-		private $textareaPlanned!: JQuery<HTMLTextAreaElement>;
-		private $defaultTextTrPlanned!: JQuery<HTMLElement>;
-		private $defaultTextPlanned!: JQuery<HTMLElement>;
-		private $buttonPlanned!: JQuery<HTMLButtonElement>;
-		private $dateFieldPlanned!: JQuery<HTMLInputElement>;
-		private config: Required<FaehreBelgernSettingsConfig>;
-		private originalStatus!: string;
-		private originalComment!: string;
+		private $dateFieldPlanned!: JQuery;
 
-		constructor(config: FaehreBelgernSettingsConfig = {}) {
-			this.config = {
-				select: '#is_faehrebelgern_settings_status',
-				textarea: '#is_faehrebelgern_settings_comment',
-				defaultTextTr: '.default_text_tr',
-				defaultText: '.default_text',
-				button: '.default_text_wrapper button',
-				typeSelect: '#is_faehrebelgern_settings_type',
-				dateField: '#is_faehrebelgern_settings_date',
-				selectPlanned: '#is_faehrebelgern_settings_status_planned',
-				textareaPlanned: '#is_faehrebelgern_settings_comment_planned',
-				defaultTextTrPlanned: '.default_text_tr_planned',
-				defaultTextPlanned: '.default_text_planned',
-				buttonPlanned: '.default_text_wrapper button.planned',
-				dateFieldPlanned: '#is_faehrebelgern_settings_date_planned',
-				...config
-			};
-
-			this.init();
-		}
-
-		private init(): void {
-			this.$select = $(this.config.select);
-			this.$textarea = $(this.config.textarea);
-			this.$defaultTextTr = $(this.config.defaultTextTr);
-			this.$defaultText = $(this.config.defaultText);
-			this.$button = $(this.config.button);
-			this.$typeSelect = $(this.config.typeSelect);
-			this.$dateField = $(this.config.dateField);
-			this.$selectPlanned = $(this.config.selectPlanned);
-			this.$textareaPlanned = $(this.config.textareaPlanned);
-			this.$defaultTextTrPlanned = $(this.config.defaultTextTrPlanned);
-			this.$defaultTextPlanned = $(this.config.defaultTextPlanned);
-			this.$buttonPlanned = $(this.config.buttonPlanned);
-			this.$dateFieldPlanned = $(this.config.dateFieldPlanned);
-
-			if (!this.$select.length || !this.$textarea.length || !this.$typeSelect.length) {
-				return;
-			}
-
-			this.setupEventListeners();
-			this.storeOriginalValues();
-			this.updateDefaultText();
-			this.updateDisplayMode();
+		constructor() {
+			this.initElements();
+			this.bindEvents();
 			this.initDatePicker();
 		}
 
-		private setupEventListeners(): void {
-			this.$select.on('change', () => {
-				this.updateDefaultText();
-			});
-
-			this.$selectPlanned.on('change', () => {
-				this.updatePlannedDefaultText();
-			});
-
-			this.$typeSelect.on('change', () => {
-				this.updateDisplayMode();
-			});
-
-			this.$button.on('click', (e) => {
-				e.preventDefault();
-				this.applyDefaultText();
-			});
-
-			this.$buttonPlanned.on('click', (e) => {
-				e.preventDefault();
-				this.applyPlannedDefaultText();
-			});
+		private initElements(): void {
+			this.$dateFieldPlanned = $('#planned_date');
 		}
 
-	private updateDefaultText(): void {
-		const defaultText = this.$select.find('option:selected').data('default-text') || '';
-		const selectedValue = this.$select.val();
-		
-		this.$defaultText.text(defaultText);
-		this.$defaultText.removeClass('status-0 status-1 status-2');
-		this.$textarea.removeClass('status-0 status-1 status-2');
-		if (defaultText.trim() == '') {
-			this.$defaultTextTr.addClass('hidden');
-		} else {
-			this.$defaultTextTr.removeClass('hidden');
+		private bindEvents(): void {
+			$('.edit-current-status').on('click', (e) => this.showEditForm(e, false));
+			$('.edit-planned-status, .add-planned-status').on('click', (e) => this.showEditForm(e, true));
+			$('.cancel-edit-status, .cancel-edit-planned').on('click', (e) => this.hideEditForm(e));
+			$('.save-current-status, .save-planned-status').on('click', (e) => this.handleSave(e));
+			$('#current_status, #planned_status').on('change', (e) => this.updateDefaultComment(e));
+			$('.use-default-comment, .use-planned-default-comment').on('click', (e) => this.useDefaultComment(e));
+			$('.cancel-planned-status').on('click', (e) => this.handleDeletePlanned(e));
 		}
 
-		this.$defaultText.addClass(`status-${selectedValue}`);
-		this.$textarea.addClass(`status-${selectedValue}`);
-	}
-
-	private applyDefaultText(): void {
-		const defaultText = this.getDefaultText();
-		if (defaultText.trim()) {
-			this.$textarea.val(defaultText);
-			this.$textarea.trigger('change');
-		}
-	}
-
-	private getDefaultText(): string {
-		return this.$select.find('option:selected').data('default-text') || '';
-	}
-
-	private updateDisplayMode(): void {
-		const typeValue = this.$typeSelect.val();
-		
-		this.restoreOriginalValues();
-		
-		if (typeValue === 'date') {
-			$('#immediately-settings').addClass('hidden');
-			$('#planned-settings').removeClass('hidden');
-		} else {
-			$('#immediately-settings').removeClass('hidden');
-			$('#planned-settings').addClass('hidden');
-		}
-	}
-
-	private storeOriginalValues(): void {
-		this.originalStatus = this.$select.val() as string;
-		this.originalComment = this.$textarea.val() as string;
-	}
-
-	private restoreOriginalValues(): void {
-		this.$select.val(this.originalStatus).trigger('change');
-		this.$textarea.val(this.originalComment);
-	}
-
-	private updatePlannedDefaultText(): void {
-		const defaultText = this.$selectPlanned.find('option:selected').data('default-text') || '';
-		const selectedValue = this.$selectPlanned.val();
-		
-		this.$defaultTextPlanned.text(defaultText);
-		this.$defaultTextPlanned.removeClass('status-0 status-1 status-2');
-		this.$textareaPlanned.removeClass('status-0 status-1 status-2');
-		if (defaultText.trim() == '') {
-			this.$defaultTextTrPlanned.addClass('hidden');
-		} else {
-			this.$defaultTextTrPlanned.removeClass('hidden');
-		}
-
-		this.$defaultTextPlanned.addClass(`status-${selectedValue}`);
-		this.$textareaPlanned.addClass(`status-${selectedValue}`);
-	}
-
-	private applyPlannedDefaultText(): void {
-		const defaultText = this.getPlannedDefaultText();
-		if (defaultText.trim()) {
-			this.$textareaPlanned.val(defaultText);
-			this.$textareaPlanned.trigger('change');
-		}
-	}
-
-	private getPlannedDefaultText(): string {
-		return this.$selectPlanned.find('option:selected').data('default-text') || '';
-	}
-
-	private initDatePicker(): void {
-		if (typeof (window as any).daterangepicker !== 'undefined' && this.$dateFieldPlanned.length) {
-			const tomorrow = new Date();
-			tomorrow.setDate(tomorrow.getDate() + 1);
+		private showEditForm(e: JQuery.ClickEvent, isPlanned: boolean): void {
+			const $button = $(e.currentTarget);
+			const $displayView = isPlanned ? $('.planned-display-view') : $('.status-display-view');
+			const $editForm = isPlanned ? $('.planned-edit-form') : $('.status-edit-form');
 			
-			(this.$dateFieldPlanned as any).daterangepicker({
-				singleDatePicker: true,
-				showDropdowns: true,
-				minDate: tomorrow,
-				locale: {
-					format: 'DD.MM.YYYY',
-					separator: ' - ',
-					applyLabel: 'Übernehmen',
-					cancelLabel: 'Abbrechen',
-					fromLabel: 'Von',
-					toLabel: 'Bis',
-					customRangeLabel: 'Benutzerdefiniert',
-					weekLabel: 'W',
-					daysOfWeek: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-					monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-					firstDay: 1
+			$displayView.addClass('hidden');
+			$editForm.removeClass('hidden');
+			
+			const statusSelect = isPlanned ? '#planned_status' : '#current_status';
+			this.updateDefaultCommentForSelect(statusSelect);
+		}
+
+		private hideEditForm(e: JQuery.ClickEvent): void {
+			const $button = $(e.currentTarget);
+			const isPlanned = $button.hasClass('cancel-edit-planned');
+			
+			if (isPlanned) {
+				const $editForm = $('.planned-edit-form');
+				$editForm.addClass('hidden');
+				
+				const $displayView = $('.planned-display-view');
+				if ($displayView.length) {
+					$displayView.removeClass('hidden');
+				} else {
+					$('.add-planned-status').closest('p').removeClass('hidden');
+				}
+			} else {
+				const $displayView = $('.status-display-view');
+				const $editForm = $('.status-edit-form');
+				
+				$editForm.addClass('hidden');
+				$displayView.removeClass('hidden');
+			}
+		}
+
+		private updateDefaultComment(e: JQuery.ChangeEvent): void {
+			const selectId = $(e.currentTarget).attr('id');
+			this.updateDefaultCommentForSelect('#' + selectId);
+		}
+
+		private updateDefaultCommentForSelect(selector: string): void {
+			const $select = $(selector);
+			const selectedOption = $select.find('option:selected');
+			const defaultComment = selectedOption.data('default-comment') || '';
+			const statusValue = selectedOption.val();
+			
+			const isPlanned = selector.includes('planned');
+			const $defaultText = isPlanned ? $('#planned-default-comment-text') : $('#default-comment-text');
+			const $table = $select.closest('table');
+			const $defaultCommentRow = $table.find('.default-comment-preview-tr');
+			
+			$defaultText.text(defaultComment);
+			
+			$table.removeClass('status-0 status-1 status-2').addClass('status-' + statusValue);
+			
+			if (defaultComment === '') {
+				$defaultCommentRow.addClass('hidden');
+			} else {
+				$defaultCommentRow.removeClass('hidden');
+			}
+		}
+
+		private useDefaultComment(e: JQuery.ClickEvent): void {
+			const $button = $(e.currentTarget);
+			const isPlanned = $button.hasClass('use-planned-default-comment');
+			const $defaultText = isPlanned ? $('#planned-default-comment-text') : $('#default-comment-text');
+			const $textarea = isPlanned ? $('#planned_comment') : $('#current_comment');
+			
+			let defaultComment = $defaultText.text();
+			
+			if (defaultComment.includes('[date]')) {
+				let dateToUse: string;
+				
+				if (isPlanned) {
+					dateToUse = $('#planned_date').val() as string || '';
+				} else {
+					const today = new Date();
+					dateToUse = today.toLocaleDateString('de-DE', {
+						day: '2-digit',
+						month: '2-digit',
+						year: 'numeric'
+					});
+				}
+				
+				defaultComment = defaultComment.replace(/\[date\]/g, dateToUse);
+			}
+			
+			$textarea.val(defaultComment);
+		}
+
+		private handleSave(e: JQuery.ClickEvent): void {
+			e.preventDefault();
+			
+			const $button = $(e.currentTarget);
+			const isPlanned = $button.hasClass('save-planned-status');
+			const $form = $button.closest('form');
+			
+			const formData = {
+				status: isPlanned ? $('#planned_status').val() : $('#current_status').val(),
+				comment: isPlanned ? $('#planned_comment').val() : $('#current_comment').val()
+			};
+			
+			if (isPlanned) {
+				(formData as any).date = $('#planned_date').val();
+				(formData as any).announce = $('#planned_announce').is(':checked') ? 1 : 0;
+			}
+			
+			$button.prop('disabled', true).text('Speichern...');
+			
+			$.ajax({
+				url: (window as any).isFahreSettingsVars.save_url,
+				method: 'POST',
+				data: formData,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-WP-Nonce', (window as any).isFahreSettingsVars.nonce);
+				},
+				success: (response) => {
+					location.reload();
+				},
+				error: (xhr, status, error) => {
+					alert('Fehler beim Speichern: ' + error);
+					$button.prop('disabled', false).text('Speichern');
 				}
 			});
 		}
-	}
 
-	public refresh(): void {
-		this.updateDefaultText();
-		this.updateDisplayMode();
-	}
+		private handleDeletePlanned(e: JQuery.ClickEvent): void {
+			e.preventDefault();
+			
+			if (!confirm((window as any).isFahreSettingsVars.l18n.delete_confirm)) {
+				return;
+			}
+			
+			const $button = $(e.currentTarget);
+			$button.prop('disabled', true).text((window as any).isFahreSettingsVars.l18n.deleting);
+			
+			$.ajax({
+				url: (window as any).isFahreSettingsVars.delete_planned_url,
+				method: 'DELETE',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('X-WP-Nonce', (window as any).isFahreSettingsVars.nonce);
+				},
+				success: (response) => {
+					location.reload();
+				},
+				error: (xhr, status, error) => {
+					alert((window as any).isFahreSettingsVars.l18n.delete_error + ' ' + error);
+					$button.prop('disabled', false).text((window as any).isFahreSettingsVars.l18n.delete);
+				}
+			});
+		}
 
-	public reset(): void {
-		this.updateDefaultText();
-		this.updateDisplayMode();
-	}
-
-	public getCurrentDefaultText(): string {
-		return this.getDefaultText();
-	}
-
-	public getSelectedType(): string {
-		return this.$typeSelect.val() as string;
-	}
-
-	public getSelectedDate(): string {
-		return this.$dateField.val() as string;
-	}
+		private initDatePicker(): void {
+			if (typeof (window as any).daterangepicker !== 'undefined' && this.$dateFieldPlanned.length) {
+				const tomorrow = new Date();
+				tomorrow.setDate(tomorrow.getDate() + 1);
+				
+				(this.$dateFieldPlanned as any).daterangepicker({
+					singleDatePicker: true,
+					showDropdowns: true,
+					minDate: tomorrow,
+					locale: (window as any).isFahreSettingsVars.daterangepicker.locale
+				});
+			}
+		}
 	}
 
 	$(document).ready(() => {
@@ -241,5 +194,4 @@
 			new FaehreBelgernSettings();
 		}
 	});
-
 })(jQuery);

@@ -18,7 +18,28 @@ class iS_FaehreBelgern_Config extends iS_Module_Config {
 		$this->set("customPrefix", "iS_");
 		$this->set("tableName", "faehrebelgern_log");
 
+		$this->set_status_data();
 		$this->create_custom_table();
+	}
+
+	private function set_status_data() {
+		$this->set("status_data", [
+			0 => [
+				'label' => esc_html__("Ferry operates according to schedule", $this->get("modulName")),
+				'default_comment' => esc_html__("", $this->get("modulName")),
+				'planned_default_comment' => esc_html__("Good news! The ferry will be back in service from [date].", $this->get("modulName"))
+			],
+			1 => [
+				'label' => esc_html__("Ferry operates with limited service according to schedule", $this->get("modulName")),
+				'default_comment' => esc_html__("Due to low water levels, only vehicles up to 3.5t will be transported from [date].", $this->get("modulName")),
+				'planned_default_comment' => esc_html__("Due to low water levels, only vehicles up to 3.5t will be transported from [date].", $this->get("modulName")),
+			],
+			2 => [
+				'label' => esc_html__("Ferry is out of service", $this->get("modulName")),
+				'default_comment' => esc_html__("Due to low water levels, the ferry is unfortunately out of service from [date]!", $this->get("modulName")),
+				'planned_default_comment' => esc_html__("Due to low water levels, the ferry is unfortunately out of service from [date]!", $this->get("modulName")),
+			]
+		]);
 	}
 
 	function create_custom_table() {

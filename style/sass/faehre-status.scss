@@ -1,31 +1,105 @@
 @use 'base/variables' as *;
 
-.faehrebelgern-status-wrapper {
-	&.in-service button {
+@use 'components/responsive' as *;
+
+#is_fb_menu {
+	.et_pb_menu__wrap {
+		order: 1;
+	}
+
+	.faehre-status-button {
+		display: flex;
+		font-size: 14px;
+		order: 2;
+	}
+
+	@include responsive(mobile_tablet) {
+		.et_pb_menu__wrap {
+			order: 2;
+		}
+
+		.faehre-status-button {
+			order: 1;
+		}
+	}
+}
+
+.faehre-status-button {
+	border: 0;
+	color: $faehre-white;
+	cursor: default;
+	font-family: 'Raleway', 'Helvetica', 'Arial', 'Lucida', 'sans-serif';
+	font-size: 1.2rem;
+	font-weight: bold;
+	padding: 10px 20px;
+
+	&.status-0 {
 		background-color: $faehre-in-service;
 	}
 
-	&.limited-service button {
+	&.status-1 {
 		background-color: $faehre-limited-service;
 	}
 
-	&.out-of-service button {
+	&.status-2 {
 		background-color: $faehre-out-of-service;
 	}
+}
 
-	button {
-		border: 0;
-		color: $faehre-white;
-		cursor: default;
-		font-family: 'Raleway', 'Helvetica', 'Arial', 'Lucida', 'sans-serif';
-		font-size: 1.2rem;
-		font-weight: bold;
-		padding: 10px 20px;
+#faehrebelgern-status-wrapper {
+	&.status-0 {
+		p {
+			color: $faehre-in-service;
+		}
+
+		&.planned p {
+			background-color: $faehre-in-service-light;
+			border-color: $faehre-in-service;
+		}
 	}
 
-	div {
+	&.status-1 {
+		p {
+			color: $faehre-limited-service;
+		}
+
+		&.planned p {
+			background-color: $faehre-limited-service-light;
+			border-color: $faehre-limited-service;
+			margin-bottom: 30px;
+		}
+	}
+
+	&.status-2 {
+		p {
+			color: $faehre-out-of-service;
+		}
+
+		&.planned p {
+			background-color: $faehre-out-of-service-light;
+			border-color: $faehre-out-of-service;
+		}
+	}
+
+	&.planned p {
+		border-style: solid;
+		border-width: 2px;
+		padding: 10px;
+	}
+
+	p {
 		font-family: 'Raleway', 'Helvetica', 'Arial', 'Lucida', 'sans-serif';
 		font-size: 16px;
-		margin-top: 20px;
+		font-weight: bold;
+		margin-bottom: 10px;
+	}
+
+	#faehrebelgern-status-date {
+		color: $faehre-status-date;
+		font-family: 'Raleway', 'Helvetica', 'Arial', 'Lucida', 'sans-serif';
+		font-size: 14px;
+		font-style: italic;
+		font-weight: normal;
+		margin-top: 8px;
 	}
 }

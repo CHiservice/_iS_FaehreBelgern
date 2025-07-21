@@ -1,60 +1,57 @@
 @use 'base/variables' as *;
 
-#faehrebelgern_settings {
-	.hidden {
-		display: none;
-	}
+.form-table {
+	&.status-0 {
 
-	.status-display,
-	.default_text,
-	.default_text_planned,
-	#is_faehrebelgern_settings_comment {
-		border: 2px solid transparent;
-		border-radius: 4px;
-		margin: 5px 0;
-		padding: 10px;
-		transition: border-color .3s ease;
-
-		&.status-0 {
-			border-color: $faehre-in-service;
-		}
-
-		&.status-1 {
-			border-color: $faehre-limited-service;
-		}
-
-		&.status-2 {
-			border-color: $faehre-out-of-service;
+		&.status-display,
+		.default-comment-preview,
+		textarea {
+			border: 2px solid $faehre-in-service;
+			border-radius: 4px;
 		}
 	}
 
-	&:empty {
-		display: none;
+	&.status-1 {
+
+		&.status-display,
+		.default-comment-preview,
+		textarea {
+			border: 2px solid $faehre-limited-service;
+			border-radius: 4px;
+		}
 	}
 
-	button {
-		background-color: $button-bg-color;
-		border-radius: 3px;
-		border-width: 0;
-		color: $faehre-white;
-		cursor: pointer;
-		font-size: 13px;
-		line-height: 1;
-		padding: 6px 10px;
-		text-decoration: none;
-		transition: background-color .3s ease;
+	&.status-2 {
+
+		&.status-display,
+		.default-comment-preview,
+		textarea {
+			border: 2px solid $faehre-out-of-service;
+			border-radius: 4px;
+		}
+	}
+}
+
+.default-comment-preview {
+	margin-bottom: 10px;
+	padding: 8px;
+
+	.default-text {
+		display: block;
+		font-style: italic;
+		margin-bottom: 5px;
+	}
+}
+
+table.form-table {
+	&.status-display {
+		display: block;
+		padding: 5px;
 	}
 
-	table {
-		&.status-display {
-			display: block;
-			padding: 5px;
-		}
-
-		th,
-		td {
-			padding-bottom: 5px;
-			padding-top: 5px;
-		}
+	th,
+	td {
+		padding-bottom: 5px;
+		padding-top: 5px;
 	}
 }

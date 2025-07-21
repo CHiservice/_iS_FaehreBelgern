@@ -1,0 +1,33 @@
+@use 'base/variables' as *;
+
+//usage:
+//	@include responsive(mobile) {
+//		color: red;
+//	}
+
+
+@mixin responsive ($breakpoint) {
+	@if $breakpoint == mobile {
+		@media only screen and (max-width: ($breakpoint-tablet)-1px) {
+			@content;
+		}
+	}
+
+	@if $breakpoint == tablet {
+		@media only screen and (min-width: $breakpoint-tablet) and (max-width: ($breakpoint-desktop)-1px) {
+			@content;
+		}
+	}
+
+	@if $breakpoint == mobile_tablet {
+		@media only screen and (max-width: ($breakpoint-desktop)-1px) {
+			@content;
+		}
+	}
+
+	@if $breakpoint == desktop {
+		@media only screen and (min-width: $breakpoint-desktop) {
+			@content;
+		}
+	}
+}
