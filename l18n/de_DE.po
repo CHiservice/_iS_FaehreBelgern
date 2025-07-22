@@ -208,5 +208,5 @@ msgstr "Zeit"
 msgid "Water Level (cm)"
 msgstr "Wasserstand (cm)"
 
-msgid "Water Level"
-msgstr "Wasserstand"
+msgid "Water Level (Torgau)"
+msgstr "Wasserstand (Torgau)"

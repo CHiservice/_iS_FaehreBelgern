@@ -90,6 +90,7 @@ class iS_FaehreBelgern_Shortcode {
 	}
 
 	function fe_enqueue_scripts() {
+		wp_enqueue_style('faehre_price_css', STYLESHEETURL.'/'.$this->config->get('modulName').'/css/faehre-price.min.css', array(), $this->config->get('version'));
 		wp_enqueue_style('faehre_status_css', STYLESHEETURL.'/'.$this->config->get('modulName').'/css/faehre-status.min.css', array(), $this->config->get('version'));
 		wp_enqueue_script('faehre_status_js', STYLESHEETURL.'/'.$this->config->get('modulName').'/js/faehre-status.min.js', array('jquery'), $this->config->get('version'), true);
 		wp_localize_script(
@@ -100,7 +101,6 @@ class iS_FaehreBelgern_Shortcode {
 			),
 		);
 
-		wp_enqueue_style('faehre_chart_css', STYLESHEETURL.'/'.$this->config->get('modulName').'/css/faehre-chart.min.css', array(), $this->config->get('version'));
 		wp_enqueue_script('faehre_chart_js', STYLESHEETURL.'/'.$this->config->get('modulName').'/js/faehre-chart.min.js', array('jquery'), $this->config->get('version'), true);
 		wp_localize_script(
 			'faehre_chart_js',

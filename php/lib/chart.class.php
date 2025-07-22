@@ -143,7 +143,7 @@ class iS_FaehreBelgern_Chart {
 				'plugins' => array(
 					'title' => array(
 						'display' => true,
-						'text' => esc_html__('Water Level', $config->get('modulName'))
+						'text' => esc_html__('Water Level (Torgau)', $config->get('modulName'))
 					)
 				)
 			)
