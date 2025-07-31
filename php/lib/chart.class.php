@@ -16,14 +16,14 @@ class iS_FaehreBelgern_Chart {
 		global $wpdb;
 		$config = iS_FaehreBelgern_Config::get_instance();
 		
-		$one_week_ago = date('Y-m-d H:i:s', strtotime('-7 days'));
+
 		
 		$current_data = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT timestamp, value FROM ".$wpdb->prefix.self::$table_current." 
 				WHERE timestamp >= %s 
 				ORDER BY timestamp ASC",
-				$one_week_ago
+				date('Y-m-d H:i:s', strtotime('-7 days'))
 			),
 			ARRAY_A
 		);
@@ -31,9 +31,9 @@ class iS_FaehreBelgern_Chart {
 		$forecast_data = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT timestamp, value FROM ".$wpdb->prefix.self::$table_forecast." 
-				WHERE timestamp >= %s 
+				WHERE timestamp >= %s
 				ORDER BY timestamp ASC",
-				$one_week_ago
+				date('Y-m-d H:i:s', strtotime('-1 day'))
 			),
 			ARRAY_A
 		);
@@ -47,7 +47,7 @@ class iS_FaehreBelgern_Chart {
 				$value = floatval($row['value']);
 				$max_value = max($max_value, $value);
 				$current_formatted[] = array(
-					'x' => date('Y-m-d H:i', strtotime($row['timestamp'])),
+					'x' => date('d.m.Y H:i', strtotime($row['timestamp'])),
 					'y' => $value
 				);
 			}
@@ -70,7 +70,7 @@ class iS_FaehreBelgern_Chart {
 				$value = floatval($row['value']);
 				$max_value = max($max_value, $value);
 				$forecast_formatted[] = array(
-					'x' => date('Y-m-d H:i', strtotime($row['timestamp'])),
+					'x' => date('d.m.Y H:i', strtotime($row['timestamp'])),
 					'y' => $value
 				);
 			}
